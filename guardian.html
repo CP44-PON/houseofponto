@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Guardian by PONTO">
+<meta name="description" content="Guardian by PONTO — Your journal of what you take care of. Track pets, people, projects, documents. Care made visible.">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>Guardian by PONTO — Care Made Visible</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --sage: #4a6741;
+    --sage-mid: #3a5333;
+    --sage-pale: #d4e4cf;
+    --sage-ultra: #eef5ec;
+    --earth: #8b6b4a;
+    --earth-pale: #f0e8dc;
+    --cream: #faf8f4;
+    --cream-dark: #f0ece4;
+    --ink: #1c1c1a;
+    --ink-mid: #3a3a36;
+    --ink-soft: #8a8a82;
+    --gold: #c9a84c;
+    --gold-pale: #f5edda;
+    --border: rgba(28,28,26,0.1);
+    --border-sage: rgba(74,103,65,0.2);
+  }
+  html { font-size: 16px; scroll-behavior: smooth; }
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 16px 32px;
+    border-bottom: 1px solid var(--border);
+    background: var(--cream);
+    position: sticky; top: 0; z-index: 100;
+  }
+  .nav-brand {
+    font-family: 'Fraunces', serif;
+    font-size: 15px; font-weight: 400;
+    color: var(--ink); text-decoration: none;
+    letter-spacing: 0.01em;
+  }
+  .nav-brand span { color: var(--sage); }
+  .nav-links { display: flex; align-items: center; gap: 28px; }
+  .nav-links a {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--ink-soft); text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .nav-links a.active { color: var(--sage); }
+  .nav-cta {
+    background: var(--sage) !important;
+    color: var(--cream) !important;
+    padding: 8px 16px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.1em !important;
+    font-size: 11px !important;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--sage-mid) !important; }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 80px 32px 0;
+    max-width: 960px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 60px; align-items: start;
+  }
+  .hero-left { padding-bottom: 60px; }
+  .hero-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--sage); margin-bottom: 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: block; width: 24px; height: 1px;
+    background: var(--sage);
+  }
+  .hero-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(40px, 6vw, 64px);
+    font-weight: 300; line-height: 1.1;
+    color: var(--ink); margin-bottom: 8px;
+  }
+  .hero-title em { font-style: italic; color: var(--sage); }
+  .hero-by {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px; font-weight: 400;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-soft); margin-bottom: 28px;
+  }
+  .hero-sub {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(18px, 2.4vw, 22px);
+    font-weight: 300; font-style: italic;
+    line-height: 1.55; color: var(--ink-mid);
+    margin-bottom: 36px; max-width: 420px;
+  }
+  .hero-ctas { display: flex; flex-direction: column; gap: 12px; max-width: 320px; }
+  .btn-primary {
+    display: flex; align-items: center; justify-content: center;
+    background: var(--sage); color: var(--cream);
+    padding: 16px 28px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    text-decoration: none; border: none; cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    position: relative; overflow: hidden;
+  }
+  .btn-primary:hover { background: var(--sage-mid); }
+  .btn-primary:active { transform: scale(0.98); }
+  .btn-secondary {
+    display: flex; align-items: center; justify-content: center;
+    background: transparent; color: var(--sage);
+    padding: 14px 28px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    text-decoration: none; border: 1px solid var(--sage);
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .btn-secondary:hover { background: var(--sage); color: var(--cream); }
+  .hero-note {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px; color: var(--ink-soft);
+    margin-top: 10px; letter-spacing: 0.04em;
+  }
+
+  /* ── CARE GARDEN SVG ── */
+  .hero-right {
+    padding-top: 16px;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .garden-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-soft); margin-bottom: 12px;
+    align-self: flex-start;
+  }
+  .garden-wrap {
+    width: 100%; max-width: 400px;
+    background: var(--sage-ultra);
+    border: 1px solid var(--border-sage);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  /* ── SECTION: PHILOSOPHY ── */
+  .philosophy {
+    background: var(--sage-ultra);
+    border-top: 1px solid var(--border-sage);
+    border-bottom: 1px solid var(--border-sage);
+    padding: 64px 32px;
+    margin-top: 0;
+  }
+  .philosophy-inner {
+    max-width: 640px; margin: 0 auto; text-align: center;
+  }
+  .philosophy-inner blockquote {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(20px, 3vw, 28px);
+    font-weight: 300; font-style: italic;
+    line-height: 1.55; color: var(--ink);
+    margin-bottom: 20px;
+  }
+  .philosophy-inner cite {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--sage); font-style: normal;
+  }
+
+  /* ── SECTION: FEATURES ── */
+  .features {
+    padding: 80px 32px;
+    max-width: 960px; margin: 0 auto;
+  }
+  .section-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--sage); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::before { content: ''; display: block; width: 24px; height: 1px; background: var(--sage); }
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 300; line-height: 1.2;
+    color: var(--ink); margin-bottom: 56px;
+    max-width: 560px;
+  }
+  .features-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px; background: var(--border);
+  }
+  .feature-card {
+    background: var(--cream);
+    padding: 32px 28px;
+  }
+  .feature-icon {
+    width: 36px; height: 36px; margin-bottom: 16px;
+    color: var(--sage);
+  }
+  .feature-name {
+    font-family: 'Fraunces', serif;
+    font-size: 18px; font-weight: 400;
+    color: var(--ink); margin-bottom: 10px;
+    line-height: 1.2;
+  }
+  .feature-desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; font-weight: 300;
+    line-height: 1.65; color: var(--ink-mid);
+  }
+
+  /* ── SECTION: ACCESS LEVELS ── */
+  .access {
+    background: var(--cream-dark);
+    padding: 80px 32px;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .access-inner { max-width: 960px; margin: 0 auto; }
+  .access-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px; background: var(--border);
+    margin-top: 48px;
+  }
+  .access-card {
+    background: var(--cream);
+    padding: 28px 24px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .access-role {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--sage);
+  }
+  .access-name {
+    font-family: 'Fraunces', serif;
+    font-size: 22px; font-weight: 400; color: var(--ink);
+  }
+  .access-desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 300;
+    line-height: 1.6; color: var(--ink-mid); margin-top: 4px;
+  }
+
+  /* ── SECTION: PRICING ── */
+  .pricing {
+    padding: 80px 32px;
+    max-width: 960px; margin: 0 auto;
+  }
+  .pricing-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 2px; background: var(--border);
+    margin-top: 48px;
+  }
+  .price-card {
+    background: var(--cream);
+    padding: 32px 24px;
+    display: flex; flex-direction: column;
+    gap: 0;
+  }
+  .price-card.featured {
+    background: var(--ink);
+    color: var(--cream);
+  }
+  .price-tier {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-soft); margin-bottom: 16px;
+  }
+  .price-card.featured .price-tier { color: var(--sage-pale); }
+  .price-amount {
+    font-family: 'Fraunces', serif;
+    font-size: 36px; font-weight: 400; line-height: 1;
+    color: var(--ink); margin-bottom: 4px;
+  }
+  .price-card.featured .price-amount { color: var(--gold); }
+  .price-cadence {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px; color: var(--ink-soft); margin-bottom: 24px;
+  }
+  .price-card.featured .price-cadence { color: var(--sage-pale); }
+  .price-features {
+    list-style: none; display: flex;
+    flex-direction: column; gap: 10px;
+    flex: 1; margin-bottom: 28px;
+  }
+  .price-features li {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; font-weight: 300;
+    line-height: 1.4; color: var(--ink-mid);
+    display: flex; gap: 8px; align-items: flex-start;
+  }
+  .price-card.featured .price-features li { color: var(--sage-pale); }
+  .price-features li::before {
+    content: '·'; color: var(--sage);
+    font-weight: 700; flex-shrink: 0; margin-top: 0;
+  }
+  .price-card.featured .price-features li::before { color: var(--gold); }
+  .price-btn {
+    display: flex; align-items: center; justify-content: center;
+    padding: 13px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    text-decoration: none; border: 1px solid var(--border);
+    color: var(--ink); background: transparent;
+    cursor: pointer; transition: background 0.2s, color 0.2s;
+    margin-top: auto;
+  }
+  .price-btn:hover { background: var(--ink); color: var(--cream); }
+  .price-btn.featured-btn {
+    background: var(--gold); color: var(--ink);
+    border-color: var(--gold);
+  }
+  .price-btn.featured-btn:hover { background: #b8963e; border-color: #b8963e; }
+  .price-note {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px; color: var(--ink-soft);
+    margin-top: 20px; text-align: center;
+    font-style: italic;
+  }
+
+  /* ── FOUNDING GUARDIAN BANNER ── */
+  .founding-banner {
+    background: var(--ink);
+    padding: 72px 32px;
+    text-align: center;
+  }
+  .founding-inner { max-width: 600px; margin: 0 auto; }
+  .founding-eyebrow {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--sage-pale); margin-bottom: 20px;
+  }
+  .founding-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 300; font-style: italic;
+    line-height: 1.2; color: var(--cream);
+    margin-bottom: 20px;
+  }
+  .founding-title span { color: var(--gold); font-style: normal; }
+  .founding-desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px; font-weight: 300;
+    line-height: 1.65; color: rgba(250,248,244,0.7);
+    margin-bottom: 12px;
+  }
+  .founding-charity {
+    font-family: 'Fraunces', serif;
+    font-size: 14px; font-style: italic;
+    color: var(--sage-pale); margin-bottom: 40px;
+  }
+  .founding-price-row {
+    display: flex; align-items: baseline; justify-content: center;
+    gap: 12px; margin-bottom: 32px;
+  }
+  .founding-price {
+    font-family: 'Fraunces', serif;
+    font-size: 56px; font-weight: 400; line-height: 1;
+    color: var(--gold);
+  }
+  .founding-price-detail {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; color: rgba(250,248,244,0.5);
+    text-align: left; line-height: 1.4;
+  }
+  .founding-ctas { display: flex; flex-direction: column; gap: 12px; max-width: 300px; margin: 0 auto; }
+
+  /* ── EMAIL SECTION ── */
+  .email-section {
+    background: var(--sage-ultra);
+    padding: 64px 32px;
+    border-top: 1px solid var(--border-sage);
+    text-align: center;
+  }
+  .email-inner { max-width: 480px; margin: 0 auto; }
+  .email-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(22px, 3.5vw, 30px);
+    font-weight: 300; font-style: italic;
+    color: var(--ink); margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  .email-sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px; color: var(--ink-soft);
+    margin-bottom: 28px; line-height: 1.5;
+  }
+  .email-row { display: flex; max-width: 400px; margin: 0 auto; }
+  .ei-input {
+    flex: 1; background: var(--cream);
+    border: 1px solid var(--border-sage); border-right: none;
+    padding: 13px 16px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px; color: var(--ink); outline: none;
+    transition: border-color 0.2s; -webkit-appearance: none; border-radius: 0;
+  }
+  .ei-input::placeholder { color: var(--ink-soft); }
+  .ei-input:focus { border-color: var(--sage); }
+  .ei-btn {
+    background: var(--sage); color: var(--cream);
+    border: 1px solid var(--sage); padding: 13px 20px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; white-space: nowrap;
+    transition: background 0.2s; border-radius: 0; -webkit-appearance: none;
+  }
+  .ei-btn:hover { background: var(--sage-mid); border-color: var(--sage-mid); }
+  .ei-success { display: none; font-size: 13px; color: var(--sage); margin-top: 12px; font-style: italic; font-family: 'Fraunces', serif; }
+  .ei-success.visible { display: block; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--cream);
+    border-top: 1px solid var(--border);
+    padding: 36px 32px;
+    display: flex; justify-content: space-between;
+    align-items: center; flex-wrap: wrap; gap: 16px;
+    max-width: 100%;
+  }
+  .footer-left {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-soft);
+    line-height: 1.8;
+  }
+  .footer-right {
+    font-family: 'Fraunces', serif;
+    font-size: 13px; font-style: italic; color: var(--ink-soft);
+  }
+
+  /* ── LAUNCH DATE BANNER ── */
+  .launch-strip {
+    background: var(--sage);
+    padding: 10px 32px;
+    text-align: center;
+  }
+  .launch-strip-inner {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--cream); display: flex;
+    align-items: center; justify-content: center; gap: 16px;
+    flex-wrap: wrap;
+  }
+  .launch-countdown { display: flex; gap: 12px; align-items: center; }
+  .lc-unit { display: flex; flex-direction: column; align-items: center; }
+  .lc-num {
+    font-family: 'Fraunces', serif;
+    font-size: 20px; font-weight: 400; line-height: 1;
+    color: var(--cream);
+  }
+  .lc-label { font-size: 8px; letter-spacing: 0.12em; color: rgba(250,248,244,0.65); margin-top: 1px; }
+  .lc-sep { color: rgba(250,248,244,0.4); font-size: 16px; }
+
+  @media (max-width: 680px) {
+    nav { padding: 14px 20px; }
+    .nav-links { gap: 16px; }
+    .hero { grid-template-columns: 1fr; gap: 40px; padding: 48px 20px 0; }
+    .hero-right { order: -1; }
+    .features-grid, .access-grid { grid-template-columns: 1fr; }
+    .pricing-grid { grid-template-columns: 1fr 1fr; }
+    .features, .pricing, .access-inner, .founding-inner { padding-left: 20px; padding-right: 20px; }
+    .hero-left { padding-bottom: 0; }
+    footer { flex-direction: column; align-items: flex-start; }
+  }
+  @media (max-width: 420px) {
+    .pricing-grid { grid-template-columns: 1fr; }
+    .nav-links .nav-hide { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- LAUNCH STRIP -->
+<div class="launch-strip">
+  <div class="launch-strip-inner">
+    <span>Early Access — April 15</span>
+    <span class="lc-sep">·</span>
+    <div class="launch-countdown">
+      <div class="lc-unit"><div class="lc-num" id="lc-d">--</div><div class="lc-label">Days</div></div>
+      <span class="lc-sep">·</span>
+      <div class="lc-unit"><div class="lc-num" id="lc-h">--</div><div class="lc-label">Hrs</div></div>
+      <span class="lc-sep">·</span>
+      <div class="lc-unit"><div class="lc-num" id="lc-m">--</div><div class="lc-label">Min</div></div>
+      <span class="lc-sep">·</span>
+      <div class="lc-unit"><div class="lc-num" id="lc-s">--</div><div class="lc-label">Sec</div></div>
+    </div>
+    <span class="lc-sep">·</span>
+    <span>Founding Guardian — $129.99 lifetime</span>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-brand">House of <span>PONTO</span></a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-hide">PONTO OS</a>
+    <a href="guardian.html" class="active">Guardian</a>
+    <a href="#founding" class="nav-cta">Join the Founding Guardian</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Guardian by PONTO</div>
+    <h1 class="hero-title">You take care<br>of <em>a lot.</em></h1>
+    <div class="hero-by">A PONTO Tool — Early Access April 15</div>
+    <p class="hero-sub">
+      Guardian helps you remember how well you're doing it. A stewardship journal for the pets, people, projects, and documents in your care.
+    </p>
+    <div class="hero-ctas">
+      <a href="#founding" class="btn-primary">Join the Founding Guardian — $129.99</a>
+      <a href="#waitlist" class="btn-secondary">Join the Waitlist — Free</a>
+      <p class="hero-note">1% of Founding Guardian sales go to a cause you choose at checkout.</p>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="garden-label">The Care Garden</div>
+    <div class="garden-wrap">
+      <!-- CARE GARDEN SVG -->
+      <svg viewBox="0 0 400 320" xmlns="http://www.w3.org/2000/svg" width="100%">
+        <!-- Sky -->
+        <rect x="0" y="0" width="400" height="220" fill="#dcebd7"/>
+        <!-- Clouds -->
+        <ellipse cx="80" cy="60" rx="38" ry="16" fill="rgba(255,255,255,0.7)"/>
+        <ellipse cx="108" cy="52" rx="28" ry="20" fill="rgba(255,255,255,0.7)"/>
+        <ellipse cx="54" cy="55" rx="24" ry="14" fill="rgba(255,255,255,0.6)"/>
+        <ellipse cx="300" cy="45" rx="30" ry="13" fill="rgba(255,255,255,0.55)"/>
+        <ellipse cx="325" cy="38" rx="22" ry="16" fill="rgba(255,255,255,0.55)"/>
+        <!-- Ground -->
+        <rect x="0" y="220" width="400" height="100" fill="#c8a882"/>
+        <!-- Soil plot -->
+        <rect x="40" y="228" width="320" height="72" rx="4" fill="#a07850"/>
+        <!-- Plot border -->
+        <rect x="40" y="228" width="320" height="72" rx="4" fill="none" stroke="#8b6540" stroke-width="1.5"/>
+        <!-- Plot rows texture -->
+        <line x1="40" y1="252" x2="360" y2="252" stroke="#8b6540" stroke-width="0.5" stroke-dasharray="4 4" opacity="0.4"/>
+        <line x1="40" y1="272" x2="360" y2="272" stroke="#8b6540" stroke-width="0.5" stroke-dasharray="4 4" opacity="0.4"/>
+
+        <!-- PLANT 1: Miso (cat) — thriving, tall -->
+        <g transform="translate(90, 228)">
+          <!-- Stem -->
+          <line x1="0" y1="0" x2="0" y2="-90" stroke="#4a6741" stroke-width="2.5" stroke-linecap="round"/>
+          <!-- Branch left -->
+          <line x1="0" y1="-55" x2="-22" y2="-72" stroke="#4a6741" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- Branch right -->
+          <line x1="0" y1="-65" x2="20" y2="-80" stroke="#4a6741" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- Leaves -->
+          <ellipse cx="-28" cy="-78" rx="16" ry="10" fill="#5a7a50" opacity="0.9" transform="rotate(-30,-28,-78)"/>
+          <ellipse cx="26" cy="-86" rx="15" ry="9" fill="#4a6741" opacity="0.9" transform="rotate(20,26,-86)"/>
+          <!-- Top flower/bloom -->
+          <circle cx="0" cy="-96" r="12" fill="#6a8a5f" opacity="0.85"/>
+          <circle cx="0" cy="-96" r="6" fill="#c9a84c" opacity="0.9"/>
+          <!-- Label -->
+          <text x="0" y="14" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="9" fill="#f0e8dc" font-weight="500" letter-spacing="0.08em">MISO</text>
+        </g>
+
+        <!-- PLANT 2: Dad — healthy, medium -->
+        <g transform="translate(175, 228)">
+          <line x1="0" y1="0" x2="0" y2="-70" stroke="#4a6741" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="0" y1="-42" x2="-18" y2="-56" stroke="#4a6741" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="0" y1="-50" x2="16" y2="-63" stroke="#4a6741" stroke-width="1.5" stroke-linecap="round"/>
+          <ellipse cx="-24" cy="-62" rx="14" ry="9" fill="#5a7a50" opacity="0.85" transform="rotate(-25,-24,-62)"/>
+          <ellipse cx="22" cy="-69" rx="13" ry="8" fill="#4a6741" opacity="0.85" transform="rotate(25,22,-69)"/>
+          <circle cx="0" cy="-76" r="10" fill="#6a8a5f" opacity="0.8"/>
+          <circle cx="0" cy="-76" r="5" fill="#8b6b4a" opacity="0.8"/>
+          <text x="0" y="14" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="9" fill="#f0e8dc" font-weight="500" letter-spacing="0.08em">DAD</text>
+        </g>
+
+        <!-- PLANT 3: Studio — needs attention, a bit wilted -->
+        <g transform="translate(255, 228)">
+          <line x1="0" y1="0" x2="2" y2="-52" stroke="#7a8a72" stroke-width="2" stroke-linecap="round"/>
+          <line x1="2" y1="-32" x2="-14" y2="-42" stroke="#7a8a72" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="2" y1="-40" x2="14" y2="-44" stroke="#7a8a72" stroke-width="1.5" stroke-linecap="round"/>
+          <ellipse cx="-18" cy="-46" rx="11" ry="7" fill="#9aaa92" opacity="0.7" transform="rotate(-20,-18,-46)"/>
+          <ellipse cx="18" cy="-50" rx="10" ry="6" fill="#9aaa92" opacity="0.7" transform="rotate(15,18,-50)"/>
+          <circle cx="2" cy="-57" r="8" fill="#9aaa92" opacity="0.65"/>
+          <circle cx="2" cy="-57" r="4" fill="#c4b48a" opacity="0.7"/>
+          <text x="2" y="14" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="9" fill="#f0e8dc" font-weight="500" letter-spacing="0.08em">STUDIO</text>
+          <!-- Alert dot -->
+          <circle cx="18" cy="-62" r="5" fill="#c9a84c"/>
+          <text x="18" y="-59" text-anchor="middle" font-family="DM Sans" font-size="7" font-weight="700" fill="#1c1c1a">!</text>
+        </g>
+
+        <!-- PLANT 4: Bike — new, small seedling -->
+        <g transform="translate(330, 228)">
+          <line x1="0" y1="0" x2="0" y2="-28" stroke="#5a7a50" stroke-width="2" stroke-linecap="round"/>
+          <line x1="0" y1="-18" x2="-10" y2="-26" stroke="#5a7a50" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="0" y1="-22" x2="9" y2="-28" stroke="#5a7a50" stroke-width="1.5" stroke-linecap="round"/>
+          <ellipse cx="-14" cy="-30" rx="9" ry="6" fill="#6a8a60" opacity="0.8" transform="rotate(-20,-14,-30)"/>
+          <ellipse cx="13" cy="-34" rx="8" ry="5" fill="#5a7a50" opacity="0.8" transform="rotate(15,13,-34)"/>
+          <circle cx="0" cy="-34" r="7" fill="#6a8a60" opacity="0.75"/>
+          <text x="0" y="14" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="9" fill="#f0e8dc" font-weight="500" letter-spacing="0.08em">BIKE</text>
+          <!-- New badge -->
+          <rect x="-12" y="-50" width="24" height="12" rx="2" fill="#4a6741"/>
+          <text x="0" y="-42" text-anchor="middle" font-family="DM Sans" font-size="7" font-weight="500" fill="#eef5ec" letter-spacing="0.06em">NEW</text>
+        </g>
+
+        <!-- Garden caption -->
+        <text x="200" y="315" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="9" fill="#8b6540" font-weight="400" letter-spacing="0.1em" text-transform="uppercase">YOUR CARE GARDEN — HEALTH REFLECTS ATTENTION</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section class="philosophy">
+  <div class="philosophy-inner">
+    <blockquote>
+      "Most to-do apps make you feel behind. Guardian makes you feel like a caretaker — someone building something living."
+    </blockquote>
+    <cite>— Why we built Guardian</cite>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features">
+  <div class="section-label">What Guardian does</div>
+  <h2 class="section-title">Everything you tend to, visible in one place.</h2>
+  <div class="features-grid">
+
+    <div class="feature-card">
+      <svg class="feature-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="18" cy="14" r="6"/><path d="M6 30c0-6.627 5.373-12 12-12s12 5.373 12 12"/>
+      </svg>
+      <div class="feature-name">Guardianships</div>
+      <p class="feature-desc">Create a guardianship for anything in your care — a pet, a parent, a creative project, a document. Each one grows as you tend to it.</p>
+    </div>
+
+    <div class="feature-card">
+      <svg class="feature-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="6" y="8" width="24" height="20" rx="2"/><line x1="12" y1="4" x2="12" y2="12"/><line x1="24" y1="4" x2="24" y2="12"/><line x1="6" y1="17" x2="30" y2="17"/>
+      </svg>
+      <div class="feature-name">Care Log</div>
+      <p class="feature-desc">Log moments with notes, photos, and video. Build a timeline of care that you can look back on — and share when it counts.</p>
+    </div>
+
+    <div class="feature-card">
+      <svg class="feature-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 6l2.4 7.4H28l-6.2 4.5 2.4 7.4L18 21l-6.2 4.3 2.4-7.4L8 13.4h7.6z"/>
+      </svg>
+      <div class="feature-name">Pattern Insights</div>
+      <p class="feature-desc">Guardian notices what you might miss. "Miso has been off food 3 of the last 7 days." Patterns surface before they become problems.</p>
+    </div>
+
+    <div class="feature-card">
+      <svg class="feature-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="18" cy="18" r="12"/><path d="M18 10v8l5 3"/>
+      </svg>
+      <div class="feature-name">Shareable Care Pages</div>
+      <p class="feature-desc">Send a link to a vet, babysitter, sibling, or specialist. No app needed. You control what they see, and for how long.</p>
+    </div>
+
+    <div class="feature-card">
+      <svg class="feature-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 28V12l10-6 10 6v16"/><rect x="14" y="18" width="8" height="10"/>
+      </svg>
+      <div class="feature-name">Care Garden</div>
+      <p class="feature-desc">A living visual of all your guardianships. Each plant's health reflects how recently you've tended to it. Beautiful. And honest.</p>
+    </div>
+
+    <div class="feature-card">
+      <svg class="feature-icon" viewBox="0 0 36 36" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10 28l4-12 4 8 4-6 4 10"/><rect x="4" y="4" width="28" height="28" rx="2"/>
+      </svg>
+      <div class="feature-name">Medical Export</div>
+      <p class="feature-desc">Export a clean, dated PDF timeline of any guardianship. Ready for vets, specialists, insurance, schools — whoever needs the full picture.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ACCESS LEVELS -->
+<section class="access">
+  <div class="access-inner">
+    <div class="section-label">Access levels</div>
+    <h2 class="section-title">You decide who sees what, and for how long.</h2>
+    <div class="access-grid">
+      <div class="access-card">
+        <div class="access-role">Full Control</div>
+        <div class="access-name">Owner</div>
+        <p class="access-desc">Creates and manages the guardianship. Controls all sharing permissions. Can export, archive, and transfer ownership.</p>
+      </div>
+      <div class="access-card">
+        <div class="access-role">Can Add + Log</div>
+        <div class="access-name">Contributor</div>
+        <p class="access-desc">Can log entries, add photos and video, and annotate. Perfect for a partner, caregiver, or collaborator who's actively involved.</p>
+      </div>
+      <div class="access-card">
+        <div class="access-role">Read Only</div>
+        <div class="access-name">Viewer</div>
+        <p class="access-desc">Can read the log and export a PDF. No editing. Ideal for a vet visit, a handoff to a sitter, or a specialist who needs context fast.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing">
+  <div class="section-label">Plans</div>
+  <h2 class="section-title">Start free. Stay free. Or go deep.</h2>
+  <div class="pricing-grid">
+
+    <div class="price-card">
+      <div class="price-tier">Free</div>
+      <div class="price-amount">$0</div>
+      <div class="price-cadence">Always</div>
+      <ul class="price-features">
+        <li>3 guardianships</li>
+        <li>1 device</li>
+        <li>Photos + video logs</li>
+        <li>Always export</li>
+        <li>Care Garden view</li>
+      </ul>
+      <a href="#waitlist" class="price-btn">Get Started Free</a>
+    </div>
+
+    <div class="price-card">
+      <div class="price-tier">Guardian+</div>
+      <div class="price-amount">$3.99</div>
+      <div class="price-cadence">/month or $34.99/year</div>
+      <ul class="price-features">
+        <li>Unlimited guardianships</li>
+        <li>Multi-device sync</li>
+        <li>Encrypted cloud backup</li>
+        <li>Pattern insights</li>
+        <li>Shareable care pages</li>
+      </ul>
+      <a href="#waitlist" class="price-btn">Join Waitlist</a>
+    </div>
+
+    <div class="price-card">
+      <div class="price-tier">Family Guardian</div>
+      <div class="price-amount">$6.99</div>
+      <div class="price-cadence">/month, up to 5 people</div>
+      <ul class="price-features">
+        <li>Everything in Guardian+</li>
+        <li>5 family members</li>
+        <li>Shared guardianships</li>
+        <li>Collaborative care logs</li>
+        <li>Family Care Garden</li>
+      </ul>
+      <a href="#waitlist" class="price-btn">Join Waitlist</a>
+    </div>
+
+    <div class="price-card featured" id="founding">
+      <div class="price-tier">Founding Guardian</div>
+      <div class="price-amount">$129.99</div>
+      <div class="price-cadence">one time · lifetime access</div>
+      <ul class="price-features">
+        <li>Everything. Forever.</li>
+        <li>Founding badge</li>
+        <li>First access to every new feature</li>
+        <li>10% goes to a cause you choose</li>
+        <li>Price rises to $149.99 at public launch</li>
+      </ul>
+      <a href="https://buy.stripe.com/aFa7sL56Yf0i71H0G08Zq01" class="price-btn featured-btn">Join the Founding Guardian</a>
+    </div>
+
+  </div>
+  <p class="price-note">Founding Guardian spots are limited. Price increases at public launch April 15.</p>
+</section>
+
+<!-- FOUNDING BANNER -->
+<section class="founding-banner">
+  <div class="founding-inner">
+    <div class="founding-eyebrow">Founding Guardian</div>
+    <h2 class="founding-title">We're looking for the first people <span>who get it.</span></h2>
+    <p class="founding-desc">
+      Founding Guardian members get lifetime access, a founding badge, and the knowledge that 1% of their membership goes to a cause they choose at checkout. The price goes up when we open publicly.
+    </p>
+    <p class="founding-charity">You choose where 10% goes — environmental, animal welfare, or community care.</p>
+    <div class="founding-price-row">
+      <div class="founding-price">$129.99</div>
+      <div class="founding-price-detail">Lifetime access<br>Rises to $149.99 at launch</div>
+    </div>
+    <div class="founding-ctas">
+      <a href="https://buy.stripe.com/aFa7sL56Yf0i71H0G08Zq01" class="btn-primary">Join the Founding Guardian</a>
+    </div>
+  </div>
+</section>
+
+<!-- WAITLIST EMAIL -->
+<section class="email-section" id="waitlist">
+  <div class="email-inner">
+    <h2 class="email-title">Not ready yet? That's okay.</h2>
+    <p class="email-sub">Get notified when Guardian opens — no commitment, no noise. Or when the doors open.</p>
+    <div class="email-row" id="ei-row">
+      <input type="email" class="ei-input" id="ei-input" placeholder="your@email.com" autocomplete="email" inputmode="email">
+      <button class="ei-btn" id="ei-btn">Notify me</button>
+    </div>
+    <div class="ei-success" id="ei-success">You're on the list. We'll be in touch.</div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-left">
+    houseofponto.com<br>
+    PONTO · CANADA · CREATIVE
+  </div>
+  <div class="footer-right">Ex Ponto, Flumen.</div>
+</footer>
+
+<script>
+  // Countdown to April 15 2026
+  var launchDate = new Date('2026-04-15T00:00:00');
+  function updateCountdown() {
+    var now = new Date();
+    var diff = launchDate - now;
+    if (diff <= 0) {
+      ['lc-d','lc-h','lc-m','lc-s'].forEach(function(id){ document.getElementById(id).textContent='00'; });
+      return;
+    }
+    document.getElementById('lc-d').textContent = String(Math.floor(diff/86400000)).padStart(2,'0');
+    document.getElementById('lc-h').textContent = String(Math.floor((diff%86400000)/3600000)).padStart(2,'0');
+    document.getElementById('lc-m').textContent = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+    document.getElementById('lc-s').textContent = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+  }
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // Email
+  document.getElementById('ei-btn').addEventListener('click', function() {
+    var input = document.getElementById('ei-input');
+    var val = input.value.trim();
+    if (!val || !val.includes('@')) {
+      input.style.borderColor = '#c9a84c';
+      setTimeout(function(){ input.style.borderColor=''; }, 1200);
+      return;
+    }
+    // ─── WIRE YOUR EMAIL SERVICE HERE ───────────────────────────────
+    // Kit: fetch('https://api.convertkit.com/v3/forms/YOUR_FORM_ID/subscribe', { method:'POST', body: JSON.stringify({api_key:'YOUR_KEY', email: val}), headers:{'Content-Type':'application/json'} });
+    // ────────────────────────────────────────────────────────────────
+    console.log('Email:', val);
+    document.getElementById('ei-row').style.display = 'none';
+    document.getElementById('ei-success').classList.add('visible');
+  });
+  document.getElementById('ei-input').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') document.getElementById('ei-btn').click();
+  });
+</script>
+</body>
+</html>
