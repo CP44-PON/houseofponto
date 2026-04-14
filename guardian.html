@@ -506,7 +506,7 @@
 <!-- LAUNCH STRIP -->
 <div class="launch-strip">
   <div class="launch-strip-inner">
-    <span>Early Access — April 15</span>
+    <span>Early Access — May 15</span>
     <span class="lc-sep">·</span>
     <div class="launch-countdown">
       <div class="lc-unit"><div class="lc-num" id="lc-d">--</div><div class="lc-label">Days</div></div>
@@ -518,7 +518,7 @@
       <div class="lc-unit"><div class="lc-num" id="lc-s">--</div><div class="lc-label">Sec</div></div>
     </div>
     <span class="lc-sep">·</span>
-    <span>Founding Guardian — $129.99 lifetime</span>
+    <span>Founding Guardian — $89.99 intro price</span>
   </div>
 </div>
 
@@ -537,14 +537,14 @@
   <div class="hero-left">
     <div class="hero-eyebrow">Guardian by PONTO</div>
     <h1 class="hero-title">You take care<br>of <em>a lot.</em></h1>
-    <div class="hero-by">A PONTO Tool — Early Access April 15</div>
+    <div class="hero-by">A PONTO Tool — Early Access May 15</div>
     <p class="hero-sub">
       Guardian helps you remember how well you're doing it. A stewardship journal for the pets, people, projects, and documents in your care.
     </p>
     <div class="hero-ctas">
-      <a href="#founding" class="btn-primary">Join the Founding Guardian — $129.99</a>
+      <a href="#founding" class="btn-primary">Join the Founding Guardian — $89.99</a>
       <a href="#waitlist" class="btn-secondary">Join the Waitlist — Free</a>
-      <p class="hero-note">1% of Founding Guardian sales go to a cause you choose at checkout.</p>
+      <p class="hero-note">A portion of every sale goes to pet and animal charity.</p>
     </div>
   </div>
   <div class="hero-right">
@@ -778,20 +778,20 @@
 
     <div class="price-card featured" id="founding">
       <div class="price-tier">Founding Guardian</div>
-      <div class="price-amount">$129.99</div>
+      <div class="price-amount">$89.99</div>
       <div class="price-cadence">one time · lifetime access</div>
       <ul class="price-features">
         <li>Everything. Forever.</li>
         <li>Founding badge</li>
         <li>First access to every new feature</li>
-        <li>10% goes to a cause you choose</li>
-        <li>Price rises to $149.99 at public launch</li>
+        <li>Portion goes to pet and animal charity</li>
+        <li>Rises to $149.99 after launch</li>
       </ul>
-      <a href="https://buy.stripe.com/aFa7sL56Yf0i71H0G08Zq01" class="price-btn featured-btn">Join the Founding Guardian</a>
+      <a href="https://buy.stripe.com/6oUfZh1UM2dwdq588s8Zq02" class="price-btn featured-btn">Join the Founding Guardian</a>
     </div>
 
   </div>
-  <p class="price-note">Founding Guardian spots are limited. Price increases at public launch April 15.</p>
+  <p class="price-note">Founding Guardian spots are limited. Intro price — rises to $149.99 after launch.</p>
 </section>
 
 <!-- FOUNDING BANNER -->
@@ -800,15 +800,15 @@
     <div class="founding-eyebrow">Founding Guardian</div>
     <h2 class="founding-title">We're looking for the first people <span>who get it.</span></h2>
     <p class="founding-desc">
-      Founding Guardian members get lifetime access, a founding badge, and the knowledge that 1% of their membership goes to a cause they choose at checkout. The price goes up when we open publicly.
+      Founding Guardian members get lifetime access, a founding badge, and the knowledge that a portion goes to pet and animal charity. The price goes up when we open publicly.
     </p>
-    <p class="founding-charity">You choose where 10% goes — environmental, animal welfare, or community care.</p>
+    <p class="founding-charity">A portion of every Founding Guardian sale goes directly to pet and animal charity.</p>
     <div class="founding-price-row">
-      <div class="founding-price">$129.99</div>
-      <div class="founding-price-detail">Lifetime access<br>Rises to $149.99 at launch</div>
+      <div class="founding-price">$89.99</div>
+      <div class="founding-price-detail">Lifetime access<br>Rises to $149.99 after launch</div>
     </div>
     <div class="founding-ctas">
-      <a href="https://buy.stripe.com/aFa7sL56Yf0i71H0G08Zq01" class="btn-primary">Join the Founding Guardian</a>
+      <a href="https://buy.stripe.com/6oUfZh1UM2dwdq588s8Zq02" class="btn-primary">Join the Founding Guardian</a>
     </div>
   </div>
 </section>
@@ -837,7 +837,7 @@
 
 <script>
   // Countdown to April 15 2026
-  var launchDate = new Date('2026-04-15T00:00:00');
+  var launchDate = new Date('2026-05-15T00:00:00');
   function updateCountdown() {
     var now = new Date();
     var diff = launchDate - now;
@@ -862,10 +862,16 @@
       setTimeout(function(){ input.style.borderColor=''; }, 1200);
       return;
     }
-    // ─── WIRE YOUR EMAIL SERVICE HERE ───────────────────────────────
-    // Kit: fetch('https://api.convertkit.com/v3/forms/YOUR_FORM_ID/subscribe', { method:'POST', body: JSON.stringify({api_key:'YOUR_KEY', email: val}), headers:{'Content-Type':'application/json'} });
-    // ────────────────────────────────────────────────────────────────
-    console.log('Email:', val);
+    // Kit email capture
+      fetch('https://api.convertkit.com/v3/forms/9327171/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ api_key: 'PDpwE8SGAMjHif3atJAzsg', email: val })
+      }).then(function(res) {
+        if (!res.ok) console.error('Kit error', res.status);
+      }).catch(function(err) {
+        console.error('Kit error', err);
+      });
     document.getElementById('ei-row').style.display = 'none';
     document.getElementById('ei-success').classList.add('visible');
   });
