@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pipeline by Ponto</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;500&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f0ebe1;
+      --cream-dark: #e8e2d6;
+      --ink: #1a1814;
+      --ink-mid: #4a4540;
+      --ink-light: #8a837a;
+      --orange: #c8440a;
+      --orange-hover: #a83608;
+      --rule: #c8c0b4;
+    }
+
+    html { font-size: 16px; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'Newsreader', Georgia, serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 48px;
+      border-bottom: 0.5px solid var(--rule);
+    }
+
+    .nav-brand {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: var(--orange); }
+    .nav-links .active { color: var(--ink); }
+
+    .nav-status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-mid);
+    }
+
+    .status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--orange);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* HERO */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: calc(100vh - 61px);
+    }
+
+    .hero-left {
+      padding: 80px 48px 80px 48px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-right: 0.5px solid var(--rule);
+    }
+
+    .hero-right {
+      background: var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-right-inner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      width: 100%;
+      padding: 60px;
+    }
+
+    /* App mockup */
+    .app-mockup {
+      background: #222222;
+      width: 160px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 40px 80px rgba(0,0,0,0.6), 0 0 0 0.5px rgba(255,255,255,0.1);
+      font-family: -apple-system, sans-serif;
+    }
+
+    .mock-top {
+      background: #1a1a1a;
+      padding: 10px 10px 8px;
+      border-bottom: 0.5px solid #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .mock-dots {
+      display: flex;
+      gap: 5px;
+      align-self: flex-start;
+    }
+
+    .mock-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .mock-dot.r { background: #FF5F57; }
+    .mock-dot.y { background: #FEBC2E; }
+    .mock-dot.g { background: #28C840; }
+
+    .mock-logo {
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      color: #f0f0f0;
+      text-align: center;
+    }
+
+    .mock-byline {
+      font-size: 7px;
+      color: #666;
+      letter-spacing: 0.1em;
+      text-align: center;
+      margin-top: -4px;
+    }
+
+    .mock-search {
+      background: #2a2a2a;
+      border: 0.5px solid #444;
+      border-radius: 4px;
+      height: 20px;
+      width: 100%;
+      margin-top: 6px;
+    }
+
+    .mock-controls {
+      padding: 6px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+      border-bottom: 0.5px solid #333;
+    }
+
+    .mock-add {
+      background: #2a2a2a;
+      border: 0.5px solid #444;
+      border-radius: 4px;
+      height: 18px;
+      width: 100%;
+    }
+
+    .mock-skills {
+      padding: 6px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .mock-cat {
+      font-size: 6px;
+      color: #555;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin: 4px 0 2px;
+    }
+
+    .mock-pill {
+      background: #2a2a2a;
+      border: 0.5px solid #333;
+      border-radius: 4px;
+      height: 18px;
+      width: 100%;
+    }
+
+    .mock-pill.active {
+      background: #1a3a5c;
+      border-color: #2563eb;
+    }
+
+    .mock-pipeline {
+      border-top: 0.5px solid #333;
+      padding: 6px 8px;
+    }
+
+    .mock-pipeline-label {
+      font-size: 6px;
+      color: #555;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .mock-chip {
+      background: #1a3a5c;
+      border: 0.5px solid #2563eb;
+      border-radius: 4px;
+      height: 16px;
+      width: 100%;
+      margin-bottom: 2px;
+    }
+
+    .mock-run {
+      background: #1a3a5c;
+      border: 0.5px solid #2563eb;
+      border-radius: 4px;
+      height: 22px;
+      width: 100%;
+      margin-top: 6px;
+    }
+
+    /* HEADLINE */
+    .headline-block { flex: 1; }
+
+    .eyebrow {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(72px, 8vw, 96px);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+      margin-bottom: 32px;
+    }
+
+    .subhead {
+      font-size: 22px;
+      line-height: 1.4;
+      color: var(--ink-mid);
+      font-style: italic;
+      max-width: 420px;
+      margin-bottom: 32px;
+    }
+
+    .body-copy {
+      font-size: 16px;
+      line-height: 1.75;
+      color: var(--ink-mid);
+      max-width: 440px;
+      margin-bottom: 40px;
+    }
+
+    .body-copy p + p { margin-top: 16px; }
+
+    /* PERKS */
+    .perks {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 48px;
+    }
+
+    .perk {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      color: var(--ink-mid);
+      letter-spacing: 0.04em;
+    }
+
+    .perk::before {
+      content: '—';
+      color: var(--orange);
+      flex-shrink: 0;
+    }
+
+    /* FORM */
+    .form-block {
+      border-top: 0.5px solid var(--rule);
+      padding-top: 40px;
+    }
+
+    .form-label {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      margin-bottom: 16px;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .kit-form input[type="email"],
+    .kit-form input[type="text"] {
+      width: 100%;
+      padding: 14px 16px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      background: transparent;
+      border: 0.5px solid var(--rule);
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s;
+      appearance: none;
+    }
+
+    .kit-form input::placeholder { color: var(--ink-light); }
+    .kit-form input:focus { border-color: var(--ink); }
+
+    .kit-form button[type="submit"] {
+      width: 100%;
+      padding: 16px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: var(--orange);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 4px;
+    }
+
+    .kit-form button[type="submit"]:hover { background: var(--orange-hover); }
+
+    .form-note {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      color: var(--ink-light);
+      letter-spacing: 0.06em;
+      margin-top: 12px;
+    }
+
+    /* FOOTER strip */
+    .footer-strip {
+      border-top: 0.5px solid var(--rule);
+      padding: 20px 48px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-strip p {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+
+    .footer-strip a {
+      color: var(--ink-light);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-strip a:hover { color: var(--ink); }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      nav { padding: 16px 24px; }
+      .nav-links { display: none; }
+
+      .hero {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+
+      .hero-left { padding: 48px 24px; border-right: none; border-bottom: 0.5px solid var(--rule); }
+      .hero-right { min-height: 320px; }
+
+      h1 { font-size: 64px; }
+      .footer-strip { padding: 16px 24px; flex-direction: column; gap: 8px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="https://www.houseofponto.com" class="nav-brand">House of Ponto</a>
+  <ul class="nav-links">
+    <li><a href="https://www.houseofponto.com">Ponto OS</a></li>
+    <li><a href="https://www.houseofponto.com/guardian.html">Guardian</a></li>
+    <li><a href="#" class="active">Pipeline</a></li>
+  </ul>
+  <div class="nav-status">
+    <div class="status-dot"></div>
+    Coming Soon
+  </div>
+</nav>
+
+<main class="hero">
+  <div class="hero-left">
+    <div class="headline-block">
+      <p class="eyebrow">Pipeline by Ponto</p>
+      <h1>YOUR AI WORKFLOW.<br>ALWAYS ON.</h1>
+      <p class="subhead">A floating toolbar that lives on the edge of your screen.</p>
+      <div class="body-copy">
+        <p>Pipeline turns your best prompts into one-click actions. Build a skill library, chain skills into pipelines, run them over anything — code, writing, ideas.</p>
+        <p>No more retyping. No more losing what works. Just the workflow you built, ready when you are.</p>
+      </div>
+      <div class="perks">
+        <div class="perk">First access when it ships</div>
+        <div class="perk">Founding price locked in</div>
+        <div class="perk">Input on what gets built next</div>
+        <div class="perk">Mac first. Windows coming.</div>
+      </div>
+    </div>
+
+    <div class="form-block">
+      <p class="form-label">Join the waitlist</p>
+      <form action="https://app.convertkit.com/forms/9411127/subscriptions" method="post" class="kit-form">
+        <div class="form-row">
+          <input type="email" name="email_address" placeholder="your@email.com" required />
+        </div>
+        <div class="form-row">
+          <input type="text" name="fields[first_name]" placeholder="First name" />
+        </div>
+        <button type="submit">Get Early Access →</button>
+        <p class="form-note">No spam. Unsubscribe any time.</p>
+      </form>
+    </div>
+  </div>
+
+  <div class="hero-right">
+    <div class="hero-right-inner">
+      <div class="app-mockup">
+        <div class="mock-top">
+          <div class="mock-dots">
+            <div class="mock-dot r"></div>
+            <div class="mock-dot y"></div>
+            <div class="mock-dot g"></div>
+          </div>
+          <div class="mock-logo">PIPELINE</div>
+          <div class="mock-byline">BY PONTO</div>
+          <div class="mock-search"></div>
+        </div>
+        <div class="mock-controls">
+          <div class="mock-add"></div>
+        </div>
+        <div class="mock-skills">
+          <div class="mock-cat">Writing</div>
+          <div class="mock-pill"></div>
+          <div class="mock-pill"></div>
+          <div class="mock-pill active"></div>
+          <div class="mock-cat">Review</div>
+          <div class="mock-pill"></div>
+          <div class="mock-pill"></div>
+          <div class="mock-cat">Code</div>
+          <div class="mock-pill"></div>
+          <div class="mock-pill"></div>
+        </div>
+        <div class="mock-pipeline">
+          <div class="mock-pipeline-label">Pipeline</div>
+          <div class="mock-chip"></div>
+          <div class="mock-chip"></div>
+          <div class="mock-run"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer-strip">
+  <p>© 2026 House of Ponto</p>
+  <p><a href="https://www.houseofponto.com">houseofponto.com</a></p>
+</footer>
+
+</body>
+</html>
